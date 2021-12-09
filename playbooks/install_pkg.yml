@@ -15,7 +15,7 @@
       apt_repository:
         repo: ppa:x4121/ripgrep
 
-    - name: Add repository for ripgrep
+    - name: Add repository for nvim
       apt_repository:
         repo: ppa:neovim-ppa/stable
 
@@ -39,7 +39,14 @@
         - clang-format
         - clangd-10
 
-    - name: Install packages
+    - name: Create soft link for clangd
+      file:
+        src: /usr/bin/clangd-10
+        dest: /usr/bin/clangd
+        state: link
+        force: yes
+
+    - name: Install bat
       apt:
         deb: https://github.com/sharkdp/bat/releases/download/v0.18.3/bat_0.18.3_amd64.deb
 
@@ -54,6 +61,8 @@
       shell: >
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg |
         sudo gpg --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+      args:
+        warn: false
 
     - name: Set up Dockers' stable repository
       shell: >
@@ -77,9 +86,30 @@
     - name: Add Node.js LTS repository
       shell: >
         curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+      args:
+        warn: false
 
     - name: Install Node.js
       apt:
         pkg:
         - nodejs
+        state: latest
+
+    - name: Add yarn repository
+      shell: >
+        curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg |
+        gpg --yes --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
+        echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" |
+        sudo tee /etc/apt/sources.list.d/yarn.list
+      args:
+        warn: false
+
+    - name: Perform "apt-get update"
+      apt:
+        update_cache: yes
+
+    - name: Install yarn
+      apt:
+        pkg:
+        - yarn
         state: latest
