@@ -10,14 +10,10 @@
       become: yes
       become_user: "{{ username }}"
       shell: cd ~ && curl -L https://raw.github.com/nimo1491/rc/master/auto-install.sh | bash
-      register: dotfiles_result
-    - debug: var=dotfiles_result
 
     - name: Install vimrc
       become: yes
       become_user: "{{ username }}"
-      shell: cd ~ && curl -L https://raw.github.com/nimo1491/vimrc/master/auto-install.sh | bash
-      register: vimrc_result
-    - debug: var=vimrc_result
+      shell: cd ~ && curl -L https://raw.github.com/nimo1491/vimrc/master/auto-install.sh | bash -s nvim
 
 
