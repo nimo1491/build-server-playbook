@@ -6,6 +6,12 @@
 
   tasks:
 
+    - name: Ensure group "developer" exists
+      become: yes
+      group:
+        name: developer
+        state: present
+
     - name: Create an user
       become: yes
       user:
@@ -15,7 +21,12 @@
         generate_ssh_key: yes
         ssh_key_bits: 2048
         ssh_key_file: .ssh/id_rsa
+        append: yes
+        groups: sudo,docker,developer
 
     - name: Install dotfiles
       shell: ansible-playbook install_rc.yml --extra-vars="username={{ username }}"
+
+    - name: Install Git config
+      shell: ansible-playbook init_git_config.yml
 

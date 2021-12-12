@@ -11,7 +11,8 @@
       user:
         name: "{{ username }}"
         state: absent
-        remove: true
+        remove: yes
+        force: yes
       register: result
     - debug: var=result
 
