@@ -19,6 +19,21 @@
       apt_repository:
         repo: ppa:neovim-ppa/stable
 
+    - name: Add clang-format official GPG key
+      shell: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+      args:
+        warn: false
+
+    - name: Add clang-format binary repository
+      apt_repository:
+        repo: deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic main
+        state: present
+
+    - name: Add clang-format source repository
+      apt_repository:
+        repo: deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic main
+        state: present
+
     - name: Perform "apt-get update"
       apt:
         update_cache: yes
@@ -36,13 +51,26 @@
         - neovim
         - ripgrep
         - ipmitool
-        - clang-format
         - clangd-10
+        - python3-venv
+        - python3-pip
+
+    - name: Install clang-format
+      apt:
+        pkg:
+        - clang-format-10
 
     - name: Create soft link for clangd
       file:
         src: /usr/bin/clangd-10
         dest: /usr/bin/clangd
+        state: link
+        force: yes
+
+    - name: Create soft link for clang-format
+      file:
+        src: /usr/bin/clang-format-10
+        dest: /usr/bin/clang-format
         state: link
         force: yes
 
@@ -95,21 +123,6 @@
         - nodejs
         state: latest
 
-    - name: Add yarn repository
+    - name: Add Node.js LTS repository
       shell: >
-        curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg |
-        gpg --yes --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
-        echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" |
-        sudo tee /etc/apt/sources.list.d/yarn.list
-      args:
-        warn: false
-
-    - name: Perform "apt-get update"
-      apt:
-        update_cache: yes
-
-    - name: Install yarn
-      apt:
-        pkg:
-        - yarn
-        state: latest
+        npm install --global --force yarn
