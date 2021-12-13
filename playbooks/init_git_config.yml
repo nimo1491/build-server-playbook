@@ -3,6 +3,8 @@
   connection: local
   name: Initialize Git config
   gather_facts: false
+  become: yes
+  become_user: "{{ username }}"
 
   tasks:
 

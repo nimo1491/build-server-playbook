@@ -28,5 +28,5 @@
       shell: ansible-playbook install_rc.yml --extra-vars="username={{ username }}"
 
     - name: Install Git config
-      shell: ansible-playbook init_git_config.yml
+      shell: ansible-playbook init_git_config.yml --extra-vars="username={{ username }}"
 
