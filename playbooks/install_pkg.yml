@@ -44,12 +44,14 @@
         - curl
         - zsh
         - git
+        - git-lfs
         - tig
         - tmux
         - fasd
         - ctags
         - neovim
         - ripgrep
+        - coreutils
         - ipmitool
         - clangd-10
         - python3-venv
