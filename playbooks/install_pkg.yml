@@ -57,6 +57,16 @@
         - python3-venv
         - python3-pip
 
+    - name: Install OpenBMC required packages
+      apt:
+        pkg:
+        - build-essential
+        - libsdl1.2-dev
+        - texinfo
+        - gawk
+        - chrpath
+        - diffstat
+
     - name: Install clang-format
       apt:
         pkg:
