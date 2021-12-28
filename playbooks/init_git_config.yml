@@ -25,3 +25,33 @@
         name: pull.ff
         scope: global
         value: only
+
+    - name: Configure git-delta
+      git_config:
+        name: core.pager
+        scope: global
+        value: delta
+
+    - name: Configure git-delta
+      git_config:
+        name: interactive.diffFilter
+        scope: global
+        value: delta --color-only
+
+    - name: Configure git-delta
+      git_config:
+        name: delta.navigate
+        scope: global
+        value: true
+
+    - name: Configure git-delta
+      git_config:
+        name: delta.side-by-side
+        scope: global
+        value: true
+
+    - name: Configure git-delta
+      git_config:
+        name: merge.conflictstyle
+        scope: global
+        value: diff3
