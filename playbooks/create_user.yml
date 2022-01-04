@@ -24,6 +24,14 @@
         append: yes
         groups: sudo,docker,developer
 
+    - name: Create workspace
+      become: yes
+      become_user: "{{ username }}"
+      file:
+        path: "{{ workspace_root }}/{{ username }}"
+        state: directory
+        mode: '0775'
+
     - name: Install dotfiles
       shell: ansible-playbook install_rc.yml --extra-vars="username={{ username }}"
 
