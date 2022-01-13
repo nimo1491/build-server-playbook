@@ -66,6 +66,14 @@
         - gawk
         - chrpath
         - diffstat
+        - zstd
+        - liblz4-tool
+
+    - name: Install qemu required packages
+      apt:
+        pkg:
+        - ninja-build
+        - libpixman-1-dev
 
     - name: Install clang-format
       apt:
@@ -126,6 +134,7 @@
         - docker-ce
         - docker-ce-cli
         - containerd.io
+        - docker-compose
 
     - name: Add Node.js LTS repository
       shell: >
