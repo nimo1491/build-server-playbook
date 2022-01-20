@@ -32,6 +32,14 @@
         state: directory
         mode: '0775'
 
+    - name: Link workspace into home folder
+      become: yes
+      become_user: "{{ username }}"
+      file:
+        src: "{{ workspace_root }}/{{ username }}"
+        dest: ~/Workspace
+        state: link
+
     - name: Install dotfiles
       shell: ansible-playbook install_rc.yml --extra-vars="username={{ username }}"
 
